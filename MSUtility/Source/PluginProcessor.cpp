@@ -22,6 +22,11 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
                        )
 #endif
 {
+    input = new juce::AudioParameterChoice("input", "Input", {"Stereo", "Mid-Side"}, 0);
+    output = new juce::AudioParameterChoice("output", "Output", {"Stereo", "Mid-Side"}, 0);
+    width = new juce::AudioParameterInt("width", "Image Width", -2, 0, -1 );
+    
+    //advanced parameters go here
 }
 
 MSUtilityAudioProcessor::~MSUtilityAudioProcessor()
