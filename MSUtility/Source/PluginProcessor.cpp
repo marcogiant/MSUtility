@@ -23,9 +23,11 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
 #endif
 {
     input = new juce::AudioParameterChoice("input", "Input", {"Stereo", "Mid-Side"}, 0);
+    addParameter(input);
     output = new juce::AudioParameterChoice("output", "Output", {"Stereo", "Mid-Side"}, 0);
+    addParameter(output);
     width = new juce::AudioParameterInt("width", "Image Width", -2, 0, -1 );
-    
+    addParameter(width); // perhaps change to float
     //advanced parameters go here
 }
 
@@ -171,7 +173,8 @@ bool MSUtilityAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* MSUtilityAudioProcessor::createEditor()
 {
-    return new MSUtilityAudioProcessorEditor (*this);
+//    return new MSUtilityAudioProcessorEditor (*this);
+      return new juce::GenericAudioProcessorEditor (*this);
 }
 
 //==============================================================================
