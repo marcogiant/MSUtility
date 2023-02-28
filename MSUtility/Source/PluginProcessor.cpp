@@ -26,8 +26,8 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
     addParameter(input);
     output = new juce::AudioParameterChoice("output", "Output", {"Stereo", "Mid-Side"}, 0);
     addParameter(output);
-    width = new juce::AudioParameterInt("width", "Image Width", -2, 0, -1 );
-    addParameter(width); // perhaps change to float
+    width = new juce::AudioParameterFloat("width", "Image Width", 0.0f, 2.0f, 1.0f );
+    addParameter(width); //
     //advanced parameters go here
 }
 
