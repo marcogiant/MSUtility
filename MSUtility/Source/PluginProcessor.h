@@ -57,7 +57,7 @@ private:
     //==============================================================================
     juce::AudioParameterChoice *input; //encoding
     juce::AudioParameterChoice *output; //decoding
-    juce::AudioParameterInt *width; // slider for stereo width (range 0, -2)
+    juce::AudioParameterFloat *width; // slider for stereo width (range 0.0 to 2.0)
     // advenced parameters to be added
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MSUtilityAudioProcessor)
 };

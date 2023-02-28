@@ -26,8 +26,8 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
     addParameter(input);
     output = new juce::AudioParameterChoice("output", "Output", {"Stereo", "Mid-Side"}, 0);
     addParameter(output);
-    width = new juce::AudioParameterInt("width", "Image Width", -2, 0, -1 );
-    addParameter(width); // perhaps change to float
+    width = new juce::AudioParameterFloat("width", "Image Width", 0.0f, 2.0f, 1.0f );
+    addParameter(width); //
     //advanced parameters go here
 }
 
@@ -157,12 +157,27 @@ void MSUtilityAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
+    //calculate width
+    
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        auto* channelData = buffer.getWritePointer (channel);
-
+       // auto* channelData = buffer.getWritePointer (channel);
         // ..do something to the data...
+        auto* channelDataLeft = buffer.getWritePointer(0); // get individual channels
+        auto* channelDataRight = buffer.getWritePointer(1);
+        
+        //        int xLeft = buffer.getNumSamples();
+        //        int xRight = buffer.getNumSamples();
+        
+        for (int i = 0; i < buffer.getNumSamples(); i++)
+        auto xSide = 0.5f * (channelDataLeft[i] - channelDataRight[i]);
+        
+        for (int i = 0; i < buffer.getNumSamples(); i++)
+        auto xMid = 0.5f * (channelDataLeft[i] - channelDataRight[i]);
+        
+     
     }
+    
 }
 
 //==============================================================================
