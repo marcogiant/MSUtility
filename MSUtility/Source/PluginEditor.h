@@ -17,8 +17,9 @@
 class MSUtilityAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
-    MSUtilityAudioProcessorEditor (MSUtilityAudioProcessor&);
+    MSUtilityAudioProcessorEditor (MSUtilityAudioProcessor&, juce::AudioProcessorValueTreeState&);// Constructor changed to accept a second argument which is a reference type of juce::AudioProcessorValueTreeState&
     ~MSUtilityAudioProcessorEditor() override;
+
 
     //==============================================================================
     void paint (juce::Graphics&) override;
@@ -29,5 +30,22 @@ private:
     // access the processor object that created it.
     MSUtilityAudioProcessor& audioProcessor;
 
+    juce::AudioProcessorValueTreeState& treeState;// AudioProcessorValueTreeState class reference variable added named ‘treeState’ which will eventually allow access and use of the tree created in the processor class
+    
+    juce::Slider widthSlider;// 2 x sliders added (one for stereo width)
+    juce::Slider p2Slider;
+    //add juce::Button.. x2 per input/output encoding
+    
+    juce::Label widthLabel; //2 x labels added (for labelling the above sliders)
+    juce::Label p2Label;
+    //juce::Label InputLabel
+    //juce::Label OutputLabel
+    
+    // 2 x AudioProcessorValueTreeState::SliderAttachment (to maintain a connection between the sliders and associated parameters in the ValueTreeState)
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> widthValue; //
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> p2Value;
+    //std::unique_ptr <juce::AudioProcessorValueTreeState::ButtonAttachment> InputChoice;//
+    //std::unique_ptr <juce::AudioProcessorValueTreeState::ButtonAttachment> OutputChoice;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MSUtilityAudioProcessorEditor)
 };
