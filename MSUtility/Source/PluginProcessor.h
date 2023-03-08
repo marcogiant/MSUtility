@@ -15,7 +15,7 @@
 */
 class MSUtilityAudioProcessor  : public juce::AudioProcessor,
                                  public juce::AudioProcessorValueTreeState::Listener
-
+//processor class will inherit from the AudioProcessingValueTreeState::Listener which is a special utility class nested in the AudioProcessingValueTreeState. By inheriting from this, our processor will be able to listen out for changes made to the value tree, and, with a little more code any of the parameters it holds.
 {
 public:
     //==============================================================================
@@ -55,14 +55,19 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    void parameterChanged(const juce::String& parameterID, float newValue) override;
-    
+   void parameterChanged(const juce::String& parameterID, float newValue) override;
+//  provides the declaration of the function we need to include, describing it’s return type (void) and two parameters (more on these later).
 private:
-    juce::AudioProcessorValueTreeState treeState;
+    juce::AudioProcessorValueTreeState treeState; //declare a new instance of the AudioProcessorValueTreeState called treeState under the private access level modifier
+   
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+  
+    //  void parameterChanged(const juce::String& parameterID, float newValue) override;
+    
     //==============================================================================
-    juce::AudioParameterChoice *input; //encoding
-    juce::AudioParameterChoice *output; //decoding
-    juce::AudioParameterFloat *width; // slider for stereo width (range 0, -2)
+//    juce::AudioParameterChoice *input; //encoding
+//    juce::AudioParameterChoice *output; //decoding
+//    juce::AudioParameterFloat *width; // slider for stereo width (range 0, -2)
     // advenced parameters to be added
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MSUtilityAudioProcessor)
 };

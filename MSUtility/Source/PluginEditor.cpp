@@ -10,8 +10,10 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor (MSUtilityAudioProcessor& p, juce::AudioProcessorValueTreeState& vts) //Constructor header changed to accept second argument as per Editor header file changed before
-    : AudioProcessorEditor (&p), audioProcessor (p), treeState(vts)//treeState reference variable initialised with treeState reference passed from the Processor class
+MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
+(MSUtilityAudioProcessor& p, juce::AudioProcessorValueTreeState& vts) //Constructor header changed to accept second argument as per Editor header file changed before
+
+: AudioProcessorEditor (&p), audioProcessor (p), treeState(vts)//treeState reference variable initialised with treeState reference passed from the Processor class
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -20,13 +22,24 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor (MSUtilityAudioProc
   
 //  width
 //
-//    widthValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
-//    (treeState, "width", widthSlider);
-//    widthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
-//    widthSlider.setRange(0.0f, 2.0f, 1.0f);
-//    widthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
-//    addAndMakeVisible(&widthSlider);
+    widthValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
+    (treeState, "width", widthSlider);
+    widthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
+    widthSlider.setRange(0.0f, 2.0f, 1.0f);
+    widthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
+    addAndMakeVisible(&widthSlider);
 //
+    // Mode Selection
+    InSel.addItem("Stereo", 1);
+    InSel.addItem("Mid-Side", 2);
+    inChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Input", InSel);
+    addAndMakeVisible(&InSel);
+    
+    OutSel.addItem("Stereo", 1);
+    OutSel.addItem("Mid-Side", 2);
+    outChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Output", OutSel);
+    addAndMakeVisible(&OutSel);
+    
 //    addAndMakeVisible(widthLabel);
 //    widthLabel.setText("width", juce::dontSendNotification);
 //    widthLabel.attachToComponent(&widthSlider, false);
@@ -35,29 +48,29 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor (MSUtilityAudioProc
 
 MSUtilityAudioProcessorEditor::~MSUtilityAudioProcessorEditor()
 {
-    // Width
-    widthValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(treeState, "width", widthSlider);
-    widthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
-    widthSlider.setRange(0.0f, 2.0f, 1.0f);
-    widthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
-    addAndMakeVisible(&widthSlider);
+//    // Width
+//    widthValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(treeState, "width", widthSlider);
+//    widthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
+//    widthSlider.setRange(0.0f, 2.0f, 1.0f);
+//    widthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
+//    addAndMakeVisible(&widthSlider);
     
-    addAndMakeVisible(widthLabel);
-   widthLabel.setText("width", juce::dontSendNotification);
-   widthLabel.attachToComponent(&widthSlider, false);
-    
+//    addAndMakeVisible(widthLabel);
+//   widthLabel.setText("width", juce::dontSendNotification);
+//   widthLabel.attachToComponent(&widthSlider, false);
+//
     //buttons + other parameters -- check practical 3-4
     
-    // Mode Selection
-    InSel.addItem("Stereo", 1);
-    InSel.addItem("Mid-Side", 2);
-    InChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Input", InSel);
-     addAndMakeVisible(&InSel);
-   
-    OutSel.addItem("Stereo", 1);
-    OutSel.addItem("Mid-Side", 2);
-    OutChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Output", OutSel);
-    addAndMakeVisible(&OutSel);
+//    // Mode Selection
+//    InSel.addItem("Stereo", 1);
+//    InSel.addItem("Mid-Side", 2);
+//    inChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Input", InSel);
+//     addAndMakeVisible(&InSel);
+//
+//    OutSel.addItem("Stereo", 1);
+//    OutSel.addItem("Mid-Side", 2);
+//    outChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Output", OutSel);
+//    addAndMakeVisible(&OutSel);
 }
 
 //==============================================================================
@@ -65,10 +78,12 @@ void MSUtilityAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
   
-    g.fillAll(juce::Colours::magenta);
-    g.setColour(juce::Colours::white);
-    g.setFont(25);
-    g.drawFittedText("Mid-Side Utiliy", 150, 20, 130, 30, juce::Justification::centred, 1, 0.0f);
+    g.fillAll(juce::Colours::greenyellow);
+    g.setColour(juce::Colours::transparentBlack);
+    
+    //Title text
+    g.setFont(30);
+    g.drawFittedText("Mid-Side Utiliy", 10, 20, 210, 10, juce::Justification::centred, 1, 0.0f);
     
     // labels
     g.setFont(25);
@@ -83,6 +98,6 @@ void MSUtilityAudioProcessorEditor::resized()
     // subcomponents in your editor..
     widthSlider.setBounds(50, 110, 320, 50);
     //feedbackSlider.setBounds(50, 180, 320, 50);
-    InSel.setBounds(127.5, 169.5, 75, 25);
-    OutSel.setBounds(127.5, 169.5, 75, 25);
+    InSel.setBounds(100.5, 100.5, 75, 25);
+    OutSel.setBounds(200.5, 200.5, 75, 25);
 }

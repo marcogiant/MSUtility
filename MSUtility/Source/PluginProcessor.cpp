@@ -24,11 +24,30 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
                         treeState(*this, nullptr, juce::Identifier("PARAMETERS"),
 {
     std::make_unique<juce::AudioParameterFloat>("width", "Image width", 0.0f, 2.0f, 1.0f),
-    std::make_unique<juce::AudioParameterChoice>("InChoice", "Input", juce::StringArray("Stereo", "Mid-Side"), 0),
-    std::make_unique<juce::AudioParameterChoice>("OutChoice", "Output", juce::StringArray("Stereo", "Mid-Side"), 0) })
+   
+    
+    std::make_unique<juce::AudioParameterChoice>("inChoice", "Input", juce::StringArray("Stereo", "Mid-Side"), 0),
+    
+    //add std::make_unique<juce::AudioParameterFloat> for Input/Output level
+    
+    std::make_unique<juce::AudioParameterInt>("midDb", "MidGain", -96, 24, 0),
+    std::make_unique<juce::AudioParameterInt>("sidesDb", "SideGain", -96, 24, 0),
+    
+    //perhaps mid or side level individually?
+    //it would be good to pan mid or side individually to L/R channels
+    
+    std::make_unique<juce::AudioParameterChoice>("outChoice", "Output", juce::StringArray("Stereo", "Mid-Side"), 0) })
+
 
 #endif
 {
+    const juce::StringArray params = {"width", "inChoice", "midDb", "sidesDb", "outChoice"};
+    for (int i = 0; i <= 4; ++i)
+    {
+        // adds a listener to each parameter in the array.
+        treeState.addParameterListener(params[i], this);
+    }
+        
     treeState.addParameterListener("width", this);
     treeState.addParameterListener("InChoice", this);
     treeState.addParameterListener("OutChoice", this);
@@ -37,6 +56,15 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
 
 MSUtilityAudioProcessor::~MSUtilityAudioProcessor()
 {
+    
+}
+juce::AudioProcessorValueTreeState::ParameterLayout MSUtilityAudioProcessor::createParameterLayout(){
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+    
+    //update number of reservation for each new added parameter
+    params.reserve(3);
+    
+    return { params.begin(), params.end()};
 }
 
 //==============================================================================
@@ -165,7 +193,21 @@ void MSUtilityAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     {
         auto* channelData = buffer.getWritePointer (channel);
 
-        // ..do something to the data...
+        // get reference of right and left channel into variables
+        auto* left = buffer.getWritePointer (0);
+        auto* right = buffer.getWritePointer (1);
+        
+        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+        {
+            const auto mid = 0.5 * (left[sample] + right[sample]);
+            const auto sides = 0.5 * (left[sample] - right[sample]);
+         
+            const auto OutLeft = mid + sides;
+            const auto OutRight = mid - sides;
+            
+            left[sample] = OutLeft;
+            right[sample] = OutRight;
+        }
     }
 }
 
