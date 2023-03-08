@@ -19,16 +19,20 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+                       
+                        treeState(*this, nullptr, juce::Identifier("PARAMETERS"),
+{
+    std::make_unique<juce::AudioParameterFloat>("width", "Image width", 0.0f, 2.0f, 1.0f),
+    std::make_unique<juce::AudioParameterChoice>("InChoice", "Input", juce::StringArray("Stereo", "Mid-Side"), 0),
+    std::make_unique<juce::AudioParameterChoice>("OutChoice", "Output", juce::StringArray("Stereo", "Mid-Side"), 0) })
+
 #endif
 {
-    input = new juce::AudioParameterChoice("input", "Input", {"Stereo", "Mid-Side"}, 0);
-    addParameter(input);
-    output = new juce::AudioParameterChoice("output", "Output", {"Stereo", "Mid-Side"}, 0);
-    addParameter(output);
-    width = new juce::AudioParameterFloat("width", "Image Width", 0.0f, 2.0f, 1.0f );
-    addParameter(width); //
-    //advanced parameters go here
+    treeState.addParameterListener("width", this);
+    treeState.addParameterListener("InChoice", this);
+    treeState.addParameterListener("OutChoice", this);
+    
 }
 
 MSUtilityAudioProcessor::~MSUtilityAudioProcessor()
@@ -173,8 +177,7 @@ bool MSUtilityAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* MSUtilityAudioProcessor::createEditor()
 {
-//    return new MSUtilityAudioProcessorEditor (*this);
-      return new juce::GenericAudioProcessorEditor (*this);
+    return new MSUtilityAudioProcessorEditor (*this, treeState);
 }
 
 //==============================================================================
@@ -196,4 +199,10 @@ void MSUtilityAudioProcessor::setStateInformation (const void* data, int sizeInB
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new MSUtilityAudioProcessor();
+}
+
+void MSUtilityAudioProcessor::parameterChanged(const juce::String& parameterID, float
+                                                  newValue)
+{
+    
 }

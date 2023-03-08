@@ -26,6 +26,14 @@ public:
     void resized() override;
 
 private:
+    
+//    juce::Slider cutoffDial;
+//    juce::Slider resonanceDial;
+//    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> cutoffValue;
+//    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> resonanceValue;
+//    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> driveValue;
+//    std::unique_ptr <juce::AudioProcessorValueTreeState::ComboBoxAttachment> modeChoice;
+//
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     MSUtilityAudioProcessor& audioProcessor;
@@ -33,19 +41,20 @@ private:
     juce::AudioProcessorValueTreeState& treeState;// AudioProcessorValueTreeState class reference variable added named ‘treeState’ which will eventually allow access and use of the tree created in the processor class
     
     juce::Slider widthSlider;// 2 x sliders added (one for stereo width)
-    juce::Slider p2Slider;
-    //add juce::Button.. x2 per input/output encoding
+    juce::ComboBox InSel;
+    juce::ComboBox OutSel;
+    //  juce::Slider p2Slider;
     
     juce::Label widthLabel; //2 x labels added (for labelling the above sliders)
-    juce::Label p2Label;
-    //juce::Label InputLabel
-    //juce::Label OutputLabel
+    juce::Label InputLabel;
+    juce::Label OutputLabel;
+    //juce::Label p2Label;
     
     // 2 x AudioProcessorValueTreeState::SliderAttachment (to maintain a connection between the sliders and associated parameters in the ValueTreeState)
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> widthValue; //
-    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> p2Value;
-    //std::unique_ptr <juce::AudioProcessorValueTreeState::ButtonAttachment> InputChoice;//
-    //std::unique_ptr <juce::AudioProcessorValueTreeState::ButtonAttachment> OutputChoice;
+    std::unique_ptr <juce::AudioProcessorValueTreeState::ComboBoxAttachment> InChoice;//
+    std::unique_ptr <juce::AudioProcessorValueTreeState::ComboBoxAttachment> OutChoice;
+     // std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> p2Value;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MSUtilityAudioProcessorEditor)
 };

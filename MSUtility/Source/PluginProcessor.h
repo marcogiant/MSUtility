@@ -13,7 +13,9 @@
 //==============================================================================
 /**
 */
-class MSUtilityAudioProcessor  : public juce::AudioProcessor
+class MSUtilityAudioProcessor  : public juce::AudioProcessor,
+                                 public juce::AudioProcessorValueTreeState::Listener
+
 {
 public:
     //==============================================================================
@@ -53,7 +55,10 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    void parameterChanged(const juce::String& parameterID, float newValue) override;
+    
 private:
+    juce::AudioProcessorValueTreeState treeState;
     //==============================================================================
     juce::AudioParameterChoice *input; //encoding
     juce::AudioParameterChoice *output; //decoding
