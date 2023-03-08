@@ -25,7 +25,7 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
     widthValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
     (treeState, "width", widthSlider);
     widthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
-    widthSlider.setRange(0.0f, 2.0f, 1.0f);
+    widthSlider.setRange(0.0f, 2.0f, 0.0f); //3rd arg is increment
     widthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
     addAndMakeVisible(&widthSlider);
 //
@@ -96,8 +96,8 @@ void MSUtilityAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    widthSlider.setBounds(50, 110, 320, 50);
+    widthSlider.setBounds(50, 180, 220, 50);
     //feedbackSlider.setBounds(50, 180, 320, 50);
-    InSel.setBounds(100.5, 100.5, 75, 25);
-    OutSel.setBounds(200.5, 200.5, 75, 25);
+    InSel.setBounds(0.5, 0.5, 100, 25);
+    OutSel.setBounds(250.5, 0.5, 100, 25);
 }
