@@ -28,15 +28,20 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
     
     std::make_unique<juce::AudioParameterChoice>("inChoice", "Input", juce::StringArray("Stereo", "Mid-Side"), 0),
     
-    //add std::make_unique<juce::AudioParameterFloat> for Input/Output level
-    
     std::make_unique<juce::AudioParameterInt>("midDb", "MidGain", -96, 24, 0),
-    std::make_unique<juce::AudioParameterInt>("sidesDb", "SideGain", -96, 24, 0),
+    std::make_unique<juce::AudioParameterInt>("sidesDb", "SidesGain", -96, 24, 0),
+    
+    //add std::make_unique<juce::AudioParameterFloat> for Input/Output level
     
     //perhaps mid or side level individually?
     //it would be good to pan mid or side individually to L/R channels
     
-    std::make_unique<juce::AudioParameterChoice>("outChoice", "Output", juce::StringArray("Stereo", "Mid-Side"), 0) })
+    std::make_unique<juce::AudioParameterChoice>("outChoice", "Output", juce::StringArray("Stereo", "Mid-Side"), 0)
+    
+    
+   
+    
+})
 
 
 #endif
@@ -64,7 +69,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout MSUtilityAudioProcessor::cre
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
     
     //update number of reservation for each new added parameter
-    params.reserve(3);
+    params.reserve(4); ////???
     
     return { params.begin(), params.end()};
 }
@@ -142,7 +147,7 @@ void MSUtilityAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     spec.numChannels = getTotalNumOutputChannels();
     
     midGainModule.prepare(spec);
-    sideGainModule.prepare(spec); 
+    sidesGainModule.prepare(spec); 
     
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
@@ -225,17 +230,22 @@ void MSUtilityAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         {
             const auto mid = 0.5 * (left[sample] + right[sample]);
             const auto sides = 0.5 * (left[sample] - right[sample]);
+//
+//            midGainModule.setGainDecibels(midGain);
+//            sidesGainModule.setGainDecibels(sidesGain);
             
-            midGainModule.setGainDecibels(midGain);
-            sideGainModule.setGainDecibels(sideGain);
+            const auto newMid = (2.0 - width) * (mid);
+            const auto newSides = (width) * (sides);
             
-            const auto OutLeft = midGainModule.processSample(mid) + sideGainModule.processSample(sides);
-            const auto OutRight = midGainModule.processSample(mid) - sideGainModule.processSample(sides); 
+//            const auto OutLeft = midGainModule.processSample(mid) + sidesGainModule.processSample(sides);
+            const auto OutLeft =  newMid + newSides;
+//            const auto OutRight = midGainModule.processSample(mid) - sidesGainModule.processSample(sides);
+            const auto OutRight = newMid - newSides; //and get rid of Modules
             
             left[sample] = OutLeft;
             right[sample] = OutRight;
             
-        }
+            }
         }
     }
 }
@@ -276,8 +286,8 @@ void MSUtilityAudioProcessor::parameterChanged(const juce::String& parameterID, 
                                                   newValue)
 {
     
-   if (parameterID == "width")
-      (newValue);
+  // if (parameterID == "width")
+    //  (newValue);
 //    else if (parameterID == "inChoice")
 //        ladderFilter.setResonance(newValue);
 //    else if (parameterID == "midDb")

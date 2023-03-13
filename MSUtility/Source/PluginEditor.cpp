@@ -13,7 +13,9 @@
 MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
 (MSUtilityAudioProcessor& p, juce::AudioProcessorValueTreeState& vts) //Constructor header changed to accept second argument as per Editor header file changed before
 
-: AudioProcessorEditor (&p), audioProcessor (p), treeState(vts)//treeState reference variable initialised with treeState reference passed from the Processor class
+: AudioProcessorEditor (&p), audioProcessor (p), treeState(vts)//,//treeState reference variable initialised with treeState reference passed from the Processor class
+
+//widthSlider("width", 0.0, 2.0, 0.01, 1.0),
 
 {
     // Make sure that before the constructor has finished, you've set the
@@ -29,6 +31,10 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
     widthSlider.setRange(0.0f, 2.0f, 0.0f); //3rd arg is increment
     widthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
     addAndMakeVisible(&widthSlider);
+    widthSlider.onValueChange = [this]()
+    {
+        audioProcessor.width = widthSlider.getValue();
+    };
 //
     // Mode Selection
     InSel.addItem("Stereo", 1);
@@ -41,31 +47,28 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
     outChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Output", OutSel);
     addAndMakeVisible(&OutSel);
     
-//    addAndMakeVisible(widthLabel);
-//    widthLabel.setText("width", juce::dontSendNotification);
-//    widthLabel.attachToComponent(&widthSlider, false);
-//
+
     midValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
     (treeState, "midDb", MidSlider);
-    widthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
-    widthSlider.setRange(-94.f, 24.f, 1.0f); //3rd arg is increment
-    widthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
+    MidSlider.setSliderStyle(juce::Slider::LinearHorizontal);
+    MidSlider.setRange(-94.0f, 24.0f, 1.0f); //3rd arg is increment
+    MidSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
     addAndMakeVisible(&MidSlider);
     MidSlider.onValueChange = [this]()
     {
         audioProcessor.midGain = MidSlider.getValue();
-        
+
     };
-    
+
     sideValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
     (treeState, "sideDb", SideSlider);
-    widthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
-    widthSlider.setRange(-94.f, 24.f, 1.0f); //3rd arg is increment
-    widthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
+    SideSlider.setSliderStyle(juce::Slider::LinearHorizontal);
+    SideSlider.setRange(-94.f, 24.f, 1.f); //3rd arg is increment
+    SideSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
     addAndMakeVisible(&SideSlider);
     SideSlider.onValueChange = [this]()
     {
-        audioProcessor.sideGain = SideSlider.getValue();
+        audioProcessor.sidesGain = SideSlider.getValue();
     };
 }
 
@@ -124,5 +127,5 @@ void MSUtilityAudioProcessorEditor::resized()
     InSel.setBounds(0.5, 0.5, 100, 25);
     OutSel.setBounds(250.5, 0.5, 100, 25);
     MidSlider.setBounds(100, 100, 220, 50);
-    SideSlider.setBounds(200, 200, 220, 50);
+    SideSlider.setBounds(100, 150, 220, 50);
 }

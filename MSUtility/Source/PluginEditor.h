@@ -32,7 +32,7 @@ private:
     MSUtilityAudioProcessor& audioProcessor;
     juce::AudioProcessorValueTreeState& treeState;// AudioProcessorValueTreeState class reference variable added named ‘treeState’ which will eventually allow access and use of the tree created in the processor class
     
-    juce::Slider widthSlider;// 2 x sliders added (one for image width)
+    juce::Slider widthSlider;//  for image width)
     juce::ComboBox InSel;
     juce::ComboBox OutSel;
     juce::Slider MidSlider;
