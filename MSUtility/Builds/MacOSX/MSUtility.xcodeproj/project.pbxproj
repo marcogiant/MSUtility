@@ -31,6 +31,7 @@
 		12CE2FA62525477859F3F65D /* include_juce_audio_plugin_client_utils.cpp */ = {isa = PBXBuildFile; fileRef = A9FD0FA228B3A27AF7EC402E; };
 		163F294AC3DB1FDB62C6D052 /* include_juce_audio_utils.mm */ = {isa = PBXBuildFile; fileRef = A6264B29DE0E366ACA4DB7A2; };
 		175CF11EF5E788D2176490D0 /* include_juce_audio_formats.mm */ = {isa = PBXBuildFile; fileRef = 5534EE4E386F61F94A5904EA; };
+		187490E57623C2D9BC422011 /* include_juce_dsp.mm */ = {isa = PBXBuildFile; fileRef = 93340047E0574BB922A7FF1B; };
 		19BFED8D66F2F187ED857031 /* include_juce_audio_devices.mm */ = {isa = PBXBuildFile; fileRef = FE08CE4B8FFA0DF76C708167; };
 		1C351C5EEE88FE3FC60880A3 /* CoreMIDI.framework */ = {isa = PBXBuildFile; fileRef = 0E00583B7E6D36605851FCAD; };
 		1EFB5BB53C9ADAB46DE1B2A8 /* include_juce_audio_processors.mm */ = {isa = PBXBuildFile; fileRef = 876B8C39F9773BB642BE6E98; };
@@ -83,6 +84,7 @@
 		31C6A0B5F54C12ABBB30690B /* Shared Code */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMSUtility.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C0334B4B1BF9F996D9D3316 /* Cocoa.framework */ /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		3EBB065DE5A957DAAAC36FA7 /* AudioUnit.framework */ /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		3F593A221DAEE3B614D2A65C /* juce_dsp */ /* juce_dsp */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_dsp; path = ../../JuceLibraryCode/modules/juce_dsp; sourceTree = SOURCE_ROOT; };
 		4619425E796FF9D74437C8E8 /* include_juce_audio_basics.mm */ /* include_juce_audio_basics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_basics.mm; path = ../../JuceLibraryCode/include_juce_audio_basics.mm; sourceTree = SOURCE_ROOT; };
 		46B2256CF19F63B4DABBCE47 /* DiscRecording.framework */ /* DiscRecording.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiscRecording.framework; path = System/Library/Frameworks/DiscRecording.framework; sourceTree = SDKROOT; };
 		5534EE4E386F61F94A5904EA /* include_juce_audio_formats.mm */ /* include_juce_audio_formats.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_formats.mm; path = ../../JuceLibraryCode/include_juce_audio_formats.mm; sourceTree = SOURCE_ROOT; };
@@ -97,6 +99,7 @@
 		876B8C39F9773BB642BE6E98 /* include_juce_audio_processors.mm */ /* include_juce_audio_processors.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_processors.mm; path = ../../JuceLibraryCode/include_juce_audio_processors.mm; sourceTree = SOURCE_ROOT; };
 		8D7C4C8B671F502736B08205 /* juce_data_structures */ /* juce_data_structures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_data_structures; path = /Applications/JUCE/modules/juce_data_structures; sourceTree = "<absolute>"; };
 		8EA7BD5974EBE9B13DCD7EE4 /* AU */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MSUtility.component; sourceTree = BUILT_PRODUCTS_DIR; };
+		93340047E0574BB922A7FF1B /* include_juce_dsp.mm */ /* include_juce_dsp.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_dsp.mm; path = ../../JuceLibraryCode/include_juce_dsp.mm; sourceTree = SOURCE_ROOT; };
 		9AB404BE625C082E446F10EE /* juce_audio_utils */ /* juce_audio_utils */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_utils; path = /Applications/JUCE/modules/juce_audio_utils; sourceTree = "<absolute>"; };
 		A1CFB11277AE496C1778F3F8 /* include_juce_audio_plugin_client_Standalone.cpp */ /* include_juce_audio_plugin_client_Standalone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_plugin_client_Standalone.cpp; path = ../../JuceLibraryCode/include_juce_audio_plugin_client_Standalone.cpp; sourceTree = SOURCE_ROOT; };
 		A6264B29DE0E366ACA4DB7A2 /* include_juce_audio_utils.mm */ /* include_juce_audio_utils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_utils.mm; path = ../../JuceLibraryCode/include_juce_audio_utils.mm; sourceTree = SOURCE_ROOT; };
@@ -223,6 +226,7 @@
 				A6264B29DE0E366ACA4DB7A2,
 				FC04AE3F3E6D0FC6B0FA75B6,
 				CBBA84FEFA4D5ECE8279C432,
+				93340047E0574BB922A7FF1B,
 				CDD2E9C9FDC91CFBCED84CA3,
 				C4A9D7067E39FD5C473C464E,
 				C06698077146AA2D25204FBD,
@@ -298,6 +302,7 @@
 				9AB404BE625C082E446F10EE,
 				0AF91535A2389D926A726DEB,
 				8D7C4C8B671F502736B08205,
+				3F593A221DAEE3B614D2A65C,
 				BE8F1B6ED8ADAEADDF5316E5,
 				5874D426852D6C2A2944BD02,
 				180AF10105BE4B511AFDD517,
@@ -583,6 +588,7 @@
 				163F294AC3DB1FDB62C6D052,
 				72635AE0EF29E92F2D2D7C9D,
 				3C8EFA39FD3702530C50CFB1,
+				187490E57623C2D9BC422011,
 				660224D1ABA823D804F3E155,
 				F15D5AAE3F4AF96EB04FF99E,
 				D575EFD56C78B531EF32F757,
@@ -667,6 +673,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -733,6 +740,7 @@
 					"/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Applications/JUCE/modules",
+					"$(SRCROOT)/../../JuceLibraryCode/modules",
 					"/Applications/JUCE/modules/juce_audio_plugin_client",
 					"$(inherited)",
 				);
@@ -740,7 +748,7 @@
 				INFOPLIST_PREPROCESS = NO;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules /Applications/JUCE/modules/juce_audio_plugin_client";
+				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules $(SRCROOT)/../../JuceLibraryCode/modules /Applications/JUCE/modules/juce_audio_plugin_client";
 				OTHER_LDFLAGS = "-lMSUtility";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.MSUtility;
 				PRODUCT_NAME = "MSUtility";
@@ -778,6 +786,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -845,6 +854,7 @@
 					"/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Applications/JUCE/modules",
+					"$(SRCROOT)/../../JuceLibraryCode/modules",
 					"/Applications/JUCE/modules/juce_audio_plugin_client",
 					"$(inherited)",
 				);
@@ -854,7 +864,7 @@
 				LIBRARY_STYLE = Bundle;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules /Applications/JUCE/modules/juce_audio_plugin_client";
+				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules $(SRCROOT)/../../JuceLibraryCode/modules /Applications/JUCE/modules/juce_audio_plugin_client";
 				OTHER_LDFLAGS = "-bundle -lMSUtility";
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -d arm64_$arm64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\" -I \"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AudioUnit.framework/Headers\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.MSUtility;
@@ -892,6 +902,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -959,13 +970,14 @@
 					"/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Applications/JUCE/modules",
+					"$(SRCROOT)/../../JuceLibraryCode/modules",
 					"/Applications/JUCE/modules/juce_audio_plugin_client",
 					"$(inherited)",
 				);
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules /Applications/JUCE/modules/juce_audio_plugin_client";
+				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules $(SRCROOT)/../../JuceLibraryCode/modules /Applications/JUCE/modules/juce_audio_plugin_client";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.MSUtility;
 				PRODUCT_NAME = "MSUtility";
 				SKIP_INSTALL = YES;
@@ -1058,6 +1070,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -1124,13 +1137,14 @@
 					"/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Applications/JUCE/modules",
+					"$(SRCROOT)/../../JuceLibraryCode/modules",
 					"/Applications/JUCE/modules/juce_audio_plugin_client",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-Standalone_Plugin.plist;
 				INFOPLIST_PREPROCESS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules /Applications/JUCE/modules/juce_audio_plugin_client";
+				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules $(SRCROOT)/../../JuceLibraryCode/modules /Applications/JUCE/modules/juce_audio_plugin_client";
 				OTHER_LDFLAGS = "-lMSUtility";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.MSUtility;
 				PRODUCT_NAME = "MSUtility";
@@ -1168,6 +1182,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -1235,6 +1250,7 @@
 					"/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Applications/JUCE/modules",
+					"$(SRCROOT)/../../JuceLibraryCode/modules",
 					"/Applications/JUCE/modules/juce_audio_plugin_client",
 					"$(inherited)",
 				);
@@ -1243,7 +1259,7 @@
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST3/";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules /Applications/JUCE/modules/juce_audio_plugin_client";
+				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules $(SRCROOT)/../../JuceLibraryCode/modules /Applications/JUCE/modules/juce_audio_plugin_client";
 				OTHER_LDFLAGS = "-bundle -lMSUtility";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.MSUtility;
 				PRODUCT_NAME = "MSUtility";
@@ -1282,6 +1298,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -1349,6 +1366,7 @@
 					"/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Applications/JUCE/modules",
+					"$(SRCROOT)/../../JuceLibraryCode/modules",
 					"/Applications/JUCE/modules/juce_audio_plugin_client",
 					"$(inherited)",
 				);
@@ -1357,7 +1375,7 @@
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules /Applications/JUCE/modules/juce_audio_plugin_client";
+				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules $(SRCROOT)/../../JuceLibraryCode/modules /Applications/JUCE/modules/juce_audio_plugin_client";
 				OTHER_LDFLAGS = "-bundle -lMSUtility";
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -d arm64_$arm64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\" -I \"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AudioUnit.framework/Headers\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.MSUtility;
@@ -1403,6 +1421,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -1470,12 +1489,13 @@
 					"/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Applications/JUCE/modules",
+					"$(SRCROOT)/../../JuceLibraryCode/modules",
 					"/Applications/JUCE/modules/juce_audio_plugin_client",
 					"$(inherited)",
 				);
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules /Applications/JUCE/modules/juce_audio_plugin_client";
+				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules $(SRCROOT)/../../JuceLibraryCode/modules /Applications/JUCE/modules/juce_audio_plugin_client";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.MSUtility;
 				PRODUCT_NAME = "MSUtility";
 				SKIP_INSTALL = YES;
@@ -1561,6 +1581,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -1628,6 +1649,7 @@
 					"/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Applications/JUCE/modules",
+					"$(SRCROOT)/../../JuceLibraryCode/modules",
 					"/Applications/JUCE/modules/juce_audio_plugin_client",
 					"$(inherited)",
 				);
@@ -1637,7 +1659,7 @@
 				LIBRARY_STYLE = Bundle;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules /Applications/JUCE/modules/juce_audio_plugin_client";
+				MTL_HEADER_SEARCH_PATHS = "/Applications/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Applications/JUCE/modules $(SRCROOT)/../../JuceLibraryCode/modules /Applications/JUCE/modules/juce_audio_plugin_client";
 				OTHER_LDFLAGS = "-bundle -lMSUtility";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.MSUtility;
 				PRODUCT_NAME = "MSUtility";

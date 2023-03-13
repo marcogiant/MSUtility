@@ -51,6 +51,8 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
     treeState.addParameterListener("width", this);
     treeState.addParameterListener("InChoice", this);
     treeState.addParameterListener("OutChoice", this);
+    treeState.addParameterListener("midDb", this);
+    treeState.addParameterListener("sidesDb", this);
     
 }
 
@@ -132,6 +134,16 @@ void MSUtilityAudioProcessor::changeProgramName (int index, const juce::String& 
 //==============================================================================
 void MSUtilityAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+   
+    juce::dsp::ProcessSpec spec;
+    
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = getTotalNumOutputChannels();
+    
+    midGainModule.prepare(spec);
+    sideGainModule.prepare(spec); 
+    
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
 }
@@ -183,30 +195,47 @@ void MSUtilityAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
+    // get width position
+//    float widthVal = (juce::AudioProcessorValueTreeState::getParameterAsValue("width", parameterID    )    const
+// + 1.0f) / 2.0f;
+//
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
     // Make sure to reset the state if your inner loop is processing
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    
+    if(totalNumInputChannels == 2){
+        
+    
+    juce::dsp::AudioBlock<float>audioBlock {buffer};
+    
+  
+    
+    for (int channel = 0; channel < audioBlock.getNumChannels(); ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
 
         // get reference of right and left channel into variables
-        auto* left = buffer.getWritePointer (0);
+        auto* left = audioBlock.getChannelPointer (0);
         auto* right = buffer.getWritePointer (1);
         
-        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+        for (int sample = 0; sample < audioBlock.getNumSamples(); ++sample)
         {
             const auto mid = 0.5 * (left[sample] + right[sample]);
             const auto sides = 0.5 * (left[sample] - right[sample]);
-         
-            const auto OutLeft = mid + sides;
-            const auto OutRight = mid - sides;
+            
+            midGainModule.setGainDecibels(midGain);
+            sideGainModule.setGainDecibels(sideGain);
+            
+            const auto OutLeft = midGainModule.processSample(mid) + sideGainModule.processSample(sides);
+            const auto OutRight = midGainModule.processSample(mid) - sideGainModule.processSample(sides); 
             
             left[sample] = OutLeft;
             right[sample] = OutRight;
+            
+        }
         }
     }
 }
@@ -246,5 +275,34 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 void MSUtilityAudioProcessor::parameterChanged(const juce::String& parameterID, float
                                                   newValue)
 {
+    
+   if (parameterID == "width")
+      (newValue);
+//    else if (parameterID == "inChoice")
+//        ladderFilter.setResonance(newValue);
+//    else if (parameterID == "midDb")
+//        ladderFilter.setDrive(newValue);
+//    else if (parameterID == "sideDb")
+//
+//    else if (parameterID == "outChoice")
+//    {
+//        switch ((int)newValue)
+//        {
+//            case 0: ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::LPF12);
+//                break;
+//            case 1: ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::LPF24);
+//                break;
+//            case 2: ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::HPF12);
+//                break;
+//            case 3: ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::HPF24);
+//                break;
+//            case 4: ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::BPF12);
+//
+//                break;
+//            case 5: ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::BPF24);
+//                break;
+//        }
+  //  }
+    
     
 }

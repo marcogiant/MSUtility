@@ -57,12 +57,19 @@ public:
 
    void parameterChanged(const juce::String& parameterID, float newValue) override;
 //  provides the declaration of the function we need to include, describing it’s return type (void) and two parameters (more on these later).
+    
+   float midGain {0.0};
+   float sideGain {0.0};
+    
 private:
     juce::AudioProcessorValueTreeState treeState; //declare a new instance of the AudioProcessorValueTreeState called treeState under the private access level modifier
    
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
   
     //  void parameterChanged(const juce::String& parameterID, float newValue) override;
+    
+    juce::dsp::Gain<float>midGainModule;
+    juce::dsp::Gain<float>sideGainModule;
     
     //==============================================================================
 //    juce::AudioParameterChoice *input; //encoding

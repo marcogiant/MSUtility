@@ -35,20 +35,21 @@ private:
     juce::Slider widthSlider;// 2 x sliders added (one for image width)
     juce::ComboBox InSel;
     juce::ComboBox OutSel;
-    // juce::Slider MidSlider;
-    // juce::Slider SideSlider;
+    juce::Slider MidSlider;
+    juce::Slider SideSlider;
     
     juce::Label widthLabel; //2 x labels added (for labelling the above sliders)
     juce::Label InputLabel;
     juce::Label OutputLabel;
-    //juce::Label p2Label;
+    juce::Label midLabel;
+    juce::Label sideLabel;
     
     // 2 x AudioProcessorValueTreeState::SliderAttachment (to maintain a connection between the sliders and associated parameters in the ValueTreeState)
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> widthValue; //
     std::unique_ptr <juce::AudioProcessorValueTreeState::ComboBoxAttachment> inChoice;//
     std::unique_ptr <juce::AudioProcessorValueTreeState::ComboBoxAttachment> outChoice;
-     // std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> midValue;
-    // std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> sideValue;
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> midValue;
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> sideValue;
     //
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MSUtilityAudioProcessorEditor)

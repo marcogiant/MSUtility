@@ -14,6 +14,7 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
 (MSUtilityAudioProcessor& p, juce::AudioProcessorValueTreeState& vts) //Constructor header changed to accept second argument as per Editor header file changed before
 
 : AudioProcessorEditor (&p), audioProcessor (p), treeState(vts)//treeState reference variable initialised with treeState reference passed from the Processor class
+
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -44,6 +45,28 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
 //    widthLabel.setText("width", juce::dontSendNotification);
 //    widthLabel.attachToComponent(&widthSlider, false);
 //
+    midValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
+    (treeState, "midDb", MidSlider);
+    widthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
+    widthSlider.setRange(-94.f, 24.f, 1.0f); //3rd arg is increment
+    widthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
+    addAndMakeVisible(&MidSlider);
+    MidSlider.onValueChange = [this]()
+    {
+        audioProcessor.midGain = MidSlider.getValue();
+        
+    };
+    
+    sideValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
+    (treeState, "sideDb", SideSlider);
+    widthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
+    widthSlider.setRange(-94.f, 24.f, 1.0f); //3rd arg is increment
+    widthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
+    addAndMakeVisible(&SideSlider);
+    SideSlider.onValueChange = [this]()
+    {
+        audioProcessor.sideGain = SideSlider.getValue();
+    };
 }
 
 MSUtilityAudioProcessorEditor::~MSUtilityAudioProcessorEditor()
@@ -87,7 +110,7 @@ void MSUtilityAudioProcessorEditor::paint (juce::Graphics& g)
     
     // labels
     g.setFont(25);
-    g.drawFittedText("Width", 55, 85, 10, 10, juce::Justification::centred, 1, 0.0f);
+    g.drawFittedText("Width", 50, 185, 220, 50, juce::Justification::centred, 1, 0.0f);
     g.drawFittedText("Input", 165, 85, 10, 10, juce::Justification::centred, 1, 0.0f);
     g.drawFittedText("Output", 55, 175, 12, 12, juce::Justification::centred, 1, 0.0f);
 }
@@ -100,4 +123,6 @@ void MSUtilityAudioProcessorEditor::resized()
     //feedbackSlider.setBounds(50, 180, 320, 50);
     InSel.setBounds(0.5, 0.5, 100, 25);
     OutSel.setBounds(250.5, 0.5, 100, 25);
+    MidSlider.setBounds(100, 100, 220, 50);
+    SideSlider.setBounds(200, 200, 220, 50);
 }
