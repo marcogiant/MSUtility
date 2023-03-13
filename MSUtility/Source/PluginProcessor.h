@@ -60,7 +60,7 @@ public:
     
    float midGain {0.0};
    float sidesGain {0.0};
-   float width {1.0f};
+   juce::SmoothedValue<float> width {1.0f};
     
 private:
     juce::AudioProcessorValueTreeState treeState; //declare a new instance of the AudioProcessorValueTreeState called treeState under the private access level modifier
