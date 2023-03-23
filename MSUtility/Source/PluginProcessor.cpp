@@ -146,13 +146,15 @@ void MSUtilityAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = getTotalNumOutputChannels();
     
-    midGainModule.prepare(spec);
-    sidesGainModule.prepare(spec); 
+    midGainModule.prepare(spec); //get rid of these
+    sidesGainModule.prepare(spec); // """"
     
-    width.reset(sampleRate,  0.02); //set ramp time
+   // width.reset(sampleRate,  0.02); //""""set ramp time
     
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    
+    widenerModule.prepare(spec);
 }
 
 void MSUtilityAudioProcessor::releaseResources()
@@ -215,52 +217,11 @@ void MSUtilityAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     
     if(totalNumInputChannels == 2){
         
-    
     juce::dsp::AudioBlock<float>audioBlock {buffer};
-    
-  
-    
-    for (int channel = 0; channel < audioBlock.getNumChannels(); ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        // get reference of right and left channel into variables
-        auto* left = audioBlock.getChannelPointer (0);
-        auto* right = buffer.getWritePointer (1);
+        widenerModule.setParameter(ImageWidener::parameterID::kWidth, width);
+        widenerModule.processBlock(audioBlock);
         
-        for (int sample = 0; sample < audioBlock.getNumSamples(); ++sample)
-        {
-            const auto mid = 0.5 * (left[sample] + right[sample]);
-            const auto sides = 0.5 * (left[sample] - right[sample]);
-//
-//            midGainModule.setGainDecibels(midGain);
-//            sidesGainModule.setGainDecibels(sidesGain);
-            
-            const auto newMid = (2.0 - width.getNextValue()) * (mid);
-            const auto newSides = (width.getNextValue()) * (sides);
-            
-//            const auto OutLeft = midGainModule.processSample(mid) + sidesGainModule.processSample(sides);
-            const auto OutLeft =  newMid + newSides;
-//            const auto OutRight = midGainModule.processSample(mid) - sidesGainModule.processSample(sides);
-            const auto OutRight = newMid - newSides; //and get rid of Modules
-            
-            if (width.getNextValue() >= 1.0f)
-            {
-                
-                left[sample] = OutLeft;
-                right[sample] = OutRight;
-            }
-           else
-           {
-               const auto volumeScaler = juce::jmap(width.getNextValue(), 1.0f, 0.0f, 0.0f, -8.0f);
-               
-               left[sample] = OutLeft * juce::Decibels::decibelsToGain(volumeScaler);
-               right[sample] = OutRight * juce::Decibels::decibelsToGain(volumeScaler);
-           }
-           
-            
-            }
-        }
+    
     }
 }
 

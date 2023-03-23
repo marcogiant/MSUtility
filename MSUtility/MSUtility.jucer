@@ -4,6 +4,11 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="m5GBhm" name="MSUtility">
     <GROUP id="{A0A7243E-7E31-62C9-A982-382223357D92}" name="Source">
+      <GROUP id="{46C2E6A1-E572-F97B-C5FE-6F936A20A15D}" name="DSP">
+        <FILE id="ePpNk1" name="ImageWidener.cpp" compile="1" resource="0"
+              file="Source/DSP/ImageWidener.cpp"/>
+        <FILE id="YKSGT8" name="ImageWidener.h" compile="0" resource="0" file="Source/DSP/ImageWidener.h"/>
+      </GROUP>
       <FILE id="QI2VMc" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="Wgl4ic" name="PluginProcessor.h" compile="0" resource="0"

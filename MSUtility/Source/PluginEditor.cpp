@@ -33,7 +33,7 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
     addAndMakeVisible(&widthSlider);
     widthSlider.onValueChange = [this]()
     {
-        audioProcessor.width.setTargetValue(widthSlider.getValue()); //set a target to ramp to
+        audioProcessor.width = (widthSlider.getValue()); //set a target to ramp to
     };
 //
     // Mode Selection
