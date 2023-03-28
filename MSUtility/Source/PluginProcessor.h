@@ -58,9 +58,10 @@ public:
    void parameterChanged(const juce::String& parameterID, float newValue) override;
 //  provides the declaration of the function we need to include, describing it’s return type (void) and two parameters (more on these later).
     
-  float midGain {0.0};
-  float sidesGain {0.0};
+  float LowWidth {1.0};
+  float HighWidth {1.0};
   float width {1.0f};
+  float crossfade {1000.0f};
     
 private:
     juce::AudioProcessorValueTreeState treeState; //declare a new instance of the AudioProcessorValueTreeState called treeState under the private access level modifier
@@ -69,9 +70,9 @@ private:
   
     //  void parameterChanged(const juce::String& parameterID, float newValue) override;
     
-    juce::dsp::Gain<float>midGainModule;// get rid of these
-    juce::dsp::Gain<float>sidesGainModule;// ""
-    
+//    juce::dsp::<float>LowWidthModule;// get rid of these
+//    juce::dsp::Gain<float>HighWidthGainModule;// ""
+//    
     ImageWidener widenerModule; //create instance of class
     
     //==============================================================================

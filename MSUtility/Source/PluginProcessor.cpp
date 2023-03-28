@@ -28,8 +28,9 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
     
     std::make_unique<juce::AudioParameterChoice>("inChoice", "Input", juce::StringArray("Stereo", "Mid-Side"), 0),
     
-    std::make_unique<juce::AudioParameterInt>("midDb", "MidGain", -96, 24, 0),
-    std::make_unique<juce::AudioParameterInt>("sidesDb", "SidesGain", -96, 24, 0),
+    std::make_unique<juce::AudioParameterFloat>("LowWidth", "LowWidth", 0.f, 2.f, 1.f),
+    std::make_unique<juce::AudioParameterFloat>("HighWidthDb", "HighWidth", 0.f, 2.f, 1.f),
+    std::make_unique<juce::AudioParameterInt>("Hz", "Crossfade", 20, 20000, 1000),
     
     //add std::make_unique<juce::AudioParameterFloat> for Input/Output level
     
@@ -46,8 +47,8 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
 
 #endif
 {
-    const juce::StringArray params = {"width", "inChoice", "midDb", "sidesDb", "outChoice"};
-    for (int i = 0; i <= 4; ++i)
+    const juce::StringArray params = {"width", "inChoice", "LowWidth", "HighWidthDb", "Hz" "outChoice"};
+    for (int i = 0; i <= 5; ++i)
     {
         // adds a listener to each parameter in the array.
         treeState.addParameterListener(params[i], this);
@@ -56,8 +57,9 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
     treeState.addParameterListener("width", this);
     treeState.addParameterListener("InChoice", this);
     treeState.addParameterListener("OutChoice", this);
-    treeState.addParameterListener("midDb", this);
-    treeState.addParameterListener("sidesDb", this);
+    treeState.addParameterListener("LowWidth", this);
+    treeState.addParameterListener("HighWidthDb", this);
+    treeState.addParameterListener("Hz", this);
     
 }
 
@@ -69,7 +71,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout MSUtilityAudioProcessor::cre
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
     
     //update number of reservation for each new added parameter
-    params.reserve(4); ////???
+    params.reserve(5); ////???
     
     return { params.begin(), params.end()};
 }
@@ -146,8 +148,9 @@ void MSUtilityAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = getTotalNumOutputChannels();
     
-    midGainModule.prepare(spec); //get rid of these
-    sidesGainModule.prepare(spec); // """"
+//    LowWidth.prepare(spec); //get rid of these
+//    HighWidthGainModule.prepare(spec);// """"
+    //Crossfade?Module.prepare(spec);
     
    // width.reset(sampleRate,  0.02); //""""set ramp time
     

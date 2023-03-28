@@ -36,13 +36,11 @@ void ImageWidener::processBlock(juce::dsp::AudioBlock<float> &block)
             const auto newMid = (2.0 - width.getNextValue()) * (mid);
             const auto newSides = (width.getNextValue()) * (sides);
             
-            
             const auto OutLeft =  newMid + newSides;
-            
             const auto OutRight = newMid - newSides;
+            
             if (width.getNextValue() >= 1.0f)
             {
-                
                 left[sample] = OutLeft;
                 right[sample] = OutRight;
             }
