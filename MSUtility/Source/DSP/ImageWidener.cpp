@@ -59,26 +59,26 @@ void ImageWidener::processBlock(juce::dsp::AudioBlock<float> &block)
             const auto newHighMid = (2.0 - HighWidth.getNextValue()) * (HighMid);
             const auto newHighSides = (HighWidth.getNextValue()) * (HighSides);
             
-            const auto OutHighLeft =  newHighMid + newLowSides;
-            const auto OutHighRight = newHighSides - newLowSides;
+            const auto OutHighLeft =  newHighMid + newHighSides;
+            const auto OutHighRight = newHighMid - newHighSides;
             
-            if (HighWidth.getNextValue() >= 1.0f) //LowWidth.getNextValue() >= 1.0f ||
-            {
-                left[sample] =  OutHighLeft; //OutLowLeft +
-                right[sample] =  OutHighRight; //OutLowRight +
+            const auto BiLowWidth = juce::jmap(LowWidth.getNextValue(), 0.f, 2.f, -1.f , 1.f);
+            const auto BiHighWidth = juce::jmap(HighWidth.getNextValue(), 0.f, 2.f, -1.f, 1.f);
+            
+        const auto LowVolumeScaler = juce::jmap(std::abs(BiLowWidth), -1.0f, 1.0f, 0.0f, -10.0f);
+        const auto HighVolumeScaler = juce::jmap(std::abs(BiHighWidth), -1.0f, 1.0f, 0.0f, -10.0f);
+            
+            const auto scaledLow = juce::Decibels::decibelsToGain(LowVolumeScaler);
+            const auto scaledHigh = juce::Decibels::decibelsToGain(HighVolumeScaler);
+            
+            left[sample] =  OutLowLeft + OutHighLeft ; //
+            right[sample] = OutLowRight + OutHighRight; //;//+
             }
-            else
-            {
-                const auto volumeScaler = juce::jmap(HighWidth.getNextValue(), 1.0f, 0.0f, 0.0f, -8.0f);
-                
-                left[sample] = OutLowLeft + OutHighLeft * juce::Decibels::decibelsToGain(volumeScaler);
-                right[sample] = OutLowRight + OutHighRight * juce::Decibels::decibelsToGain(volumeScaler);
-            }
             
             
-        }
     }
 }
+
 void ImageWidener::setParameter(parameterID parameter, float parameterValue)
 {
     switch (parameter)

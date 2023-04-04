@@ -28,8 +28,8 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
     
     std::make_unique<juce::AudioParameterChoice>("inChoice", "Input", juce::StringArray("Stereo", "Mid-Side"), 0),
     
-    std::make_unique<juce::AudioParameterFloat>("LowWidth", "LowWidth", 0.f, 2.f, 1.f),
-    std::make_unique<juce::AudioParameterFloat>("HighWidthDb", "HighWidth", 0.f, 2.f, 1.f),
+    std::make_unique<juce::AudioParameterFloat>("LowWidth", "LowWidth", 0.f, 2.f, 0.f),
+    std::make_unique<juce::AudioParameterFloat>("HighWidth", "HighWidth", 0.f, 2.f, 0.f),
     std::make_unique<juce::AudioParameterInt>("Hz", "Crossfade", 20, 20000, 1000),
     
     //add std::make_unique<juce::AudioParameterFloat> for Input/Output level
@@ -58,7 +58,7 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
     treeState.addParameterListener("InChoice", this);
     treeState.addParameterListener("OutChoice", this);
     treeState.addParameterListener("LowWidth", this);
-    treeState.addParameterListener("HighWidthDb", this);
+    treeState.addParameterListener("HighWidth", this);
     treeState.addParameterListener("Hz", this);
     
 }
