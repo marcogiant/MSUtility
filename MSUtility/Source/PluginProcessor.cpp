@@ -221,7 +221,9 @@ void MSUtilityAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     if(totalNumInputChannels == 2){
         
     juce::dsp::AudioBlock<float>audioBlock {buffer};
-        widenerModule.setParameter(ImageWidener::parameterID::kWidth, width);
+        widenerModule.setParameter(ImageWidener::parameterID::kLowWidth, LowWidth);
+        widenerModule.setParameter(ImageWidener::parameterID::kHighWidth, HighWidth);
+        widenerModule.setParameter(ImageWidener::parameterID::kCrossfade, crossfade);
         widenerModule.processBlock(audioBlock);
         
     

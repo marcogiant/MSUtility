@@ -23,7 +23,9 @@ public:
     
     enum class parameterID
     {
-        kWidth,
+        kLowWidth,
+        kHighWidth,
+        kCrossfade,
         kBypass
 
     };
@@ -35,10 +37,15 @@ private:
     void assertRange(float sourceValue, float min, float max);
     void assertBool(float sourceValue);
     
-    juce::SmoothedValue<float> width {1.0f};
+    juce::SmoothedValue<float> LowWidth {1.0f};
+     juce::SmoothedValue<float> HighWidth {1.0f};
+    juce::SmoothedValue<float> crossfadeFreq {10000.f};
     
     bool bypassModule {false};
     float currentSampleRate;
+    
+    juce::dsp::LinkwitzRileyFilter<float> crossfadeFilterModule;
+    juce::dsp::LinkwitzRileyFilter<float> crossfadeFilterModule2;
 };
 
 

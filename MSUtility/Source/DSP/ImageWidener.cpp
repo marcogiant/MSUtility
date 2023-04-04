@@ -13,7 +13,14 @@
 void ImageWidener::prepare(juce::dsp::ProcessSpec &spec)
 {
     currentSampleRate = spec.sampleRate;
-    width.reset(currentSampleRate,  0.02);
+    LowWidth.reset(currentSampleRate,  0.02);
+    crossfadeFreq.reset(currentSampleRate,0.02);
+    
+    crossfadeFilterModule.prepare(spec);
+    crossfadeFilterModule.setType(juce::dsp::LinkwitzRileyFilterType::lowpass);
+    
+    crossfadeFilterModule2.prepare(spec);
+    crossfadeFilterModule2.setType(juce::dsp::LinkwitzRileyFilterType::lowpass);
     
 }
 
@@ -30,26 +37,42 @@ void ImageWidener::processBlock(juce::dsp::AudioBlock<float> &block)
         
         for (int sample = 0; sample < block.getNumSamples(); ++sample)
         {
-            const auto mid = 0.5 * (left[sample] + right[sample]);
-            const auto sides = 0.5 * (left[sample] - right[sample]);
             
-            const auto newMid = (2.0 - width.getNextValue()) * (mid);
-            const auto newSides = (width.getNextValue()) * (sides);
+            const auto LowMidRaw = 0.5 * (left[sample] + right[sample]);
+            const auto LowSidesRaw = 0.5 * (left[sample] - right[sample]);
             
-            const auto OutLeft =  newMid + newSides;
-            const auto OutRight = newMid - newSides;
+            crossfadeFilterModule.setCutoffFrequency(crossfadeFreq.getNextValue());
+            crossfadeFilterModule2.setCutoffFrequency(crossfadeFreq.getNextValue());
+            const auto LowMid = crossfadeFilterModule.processSample(channel, LowMidRaw);
+            const auto LowSides = crossfadeFilterModule2.processSample(channel, LowSidesRaw);
             
-            if (width.getNextValue() >= 1.0f)
+            const auto newLowMid = (2.0 - LowWidth.getNextValue()) * (LowMid);
+            const auto newLowSides = (LowWidth.getNextValue()) * (LowSides);
+            
+            const auto OutLowLeft =  newLowMid + newLowSides;
+            const auto OutLowRight = newLowMid - newLowSides;
+            
+            //
+            const auto HighMid = LowMidRaw - LowMid;
+            const auto HighSides = LowSidesRaw - LowSides;
+            
+            const auto newHighMid = (2.0 - HighWidth.getNextValue()) * (HighMid);
+            const auto newHighSides = (HighWidth.getNextValue()) * (HighSides);
+            
+            const auto OutHighLeft =  newHighMid + newLowSides;
+            const auto OutHighRight = newHighSides - newLowSides;
+            
+            if (HighWidth.getNextValue() >= 1.0f) //LowWidth.getNextValue() >= 1.0f ||
             {
-                left[sample] = OutLeft;
-                right[sample] = OutRight;
+                left[sample] =  OutHighLeft; //OutLowLeft +
+                right[sample] =  OutHighRight; //OutLowRight +
             }
             else
             {
-                const auto volumeScaler = juce::jmap(width.getNextValue(), 1.0f, 0.0f, 0.0f, -8.0f);
+                const auto volumeScaler = juce::jmap(HighWidth.getNextValue(), 1.0f, 0.0f, 0.0f, -8.0f);
                 
-                left[sample] = OutLeft * juce::Decibels::decibelsToGain(volumeScaler);
-                right[sample] = OutRight * juce::Decibels::decibelsToGain(volumeScaler);
+                left[sample] = OutLowLeft + OutHighLeft * juce::Decibels::decibelsToGain(volumeScaler);
+                right[sample] = OutLowRight + OutHighRight * juce::Decibels::decibelsToGain(volumeScaler);
             }
             
             
@@ -60,11 +83,25 @@ void ImageWidener::setParameter(parameterID parameter, float parameterValue)
 {
     switch (parameter)
     {
-        case parameterID::kWidth:
+        case parameterID::kLowWidth:
         {
-            width.setTargetValue(parameterValue);
+            LowWidth.setTargetValue(parameterValue);
             break;
         }
+            
+        case parameterID::kHighWidth:
+        {
+            HighWidth.setTargetValue(parameterValue);
+            break;
+        }
+            
+        case parameterID::kCrossfade:
+        {
+            crossfadeFreq.setTargetValue(parameterValue);
+            break;
+            
+        }
+            
         case parameterID::kBypass:
         {
             bypassModule = parameterValue;
