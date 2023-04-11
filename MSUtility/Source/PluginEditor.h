@@ -18,6 +18,7 @@ class MSUtilityAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
     MSUtilityAudioProcessorEditor (MSUtilityAudioProcessor&, juce::AudioProcessorValueTreeState&);// Constructor changed to accept a second argument which is a reference type of juce::AudioProcessorValueTreeState&
+    
     ~MSUtilityAudioProcessorEditor() override;
 
 
@@ -27,8 +28,6 @@ public:
 
 private:
 
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
     MSUtilityAudioProcessor& audioProcessor;
     juce::AudioProcessorValueTreeState& treeState;// AudioProcessorValueTreeState class reference variable added named ‘treeState’ which will eventually allow access and use of the tree created in the processor class
     

@@ -15,7 +15,7 @@
 */
 class MSUtilityAudioProcessor  : public juce::AudioProcessor,
                                  public juce::AudioProcessorValueTreeState::Listener
-//processor class will inherit from the AudioProcessingValueTreeState::Listener which is a special utility class nested in the AudioProcessingValueTreeState. By inheriting from this, our processor will be able to listen out for changes made to the value tree, and, with a little more code any of the parameters it holds.
+    //processor class inherits from the AudioProcessingValueTreeState::Listener, a special utility class nested in the AudioProcessingValueTreeState. This way, the processor will be able to listen out for changes made to the value tree
 {
 public:
     //==============================================================================
@@ -56,7 +56,8 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
    void parameterChanged(const juce::String& parameterID, float newValue) override;
-//  provides the declaration of the function we need to include, describing it’s return type (void) and two parameters (more on these later).
+// override this function and provide implementation for it
+    //provides the declaration of the function we need to include, describing it’s return type (void) and two parameters.
     
   float LowWidth {1.0};
   float HighWidth {1.0};
@@ -68,11 +69,6 @@ private:
    
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
   
-    //  void parameterChanged(const juce::String& parameterID, float newValue) override;
-    
-//    juce::dsp::<float>LowWidthModule;// get rid of these
-//    juce::dsp::Gain<float>HighWidthGainModule;// ""
-//    
     ImageWidener widenerModule; //create instance of class
     
     //==============================================================================

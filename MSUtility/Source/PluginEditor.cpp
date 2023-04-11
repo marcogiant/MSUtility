@@ -11,30 +11,26 @@
 
 //==============================================================================
 MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
-(MSUtilityAudioProcessor& p, juce::AudioProcessorValueTreeState& vts) //Constructor header changed to accept second argument as per Editor header file changed before
+(MSUtilityAudioProcessor& p, juce::AudioProcessorValueTreeState& vts)
 
-: AudioProcessorEditor (&p), audioProcessor (p), treeState(vts)//,//treeState reference variable initialised with treeState reference passed from the Processor class
+// reference to a Value Tree can now be passed in when the editor is instantiated.
 
-
+: AudioProcessorEditor (&p), audioProcessor (p), treeState(vts)//treeState reference variable initialised with treeState reference passed from the Processor class
 
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
-    setSize (400, 300);
-    
+    setSize (500, 500);
   
 //  width
-//
-    widthValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
-    (treeState, "width", widthSlider);
-    widthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
-    widthSlider.setRange(0.0f, 2.0f, 0.0f); //3rd arg is increment
-    widthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
-    addAndMakeVisible(&widthSlider);
-    widthSlider.onValueChange = [this]()
-    {
-        audioProcessor.width = (widthSlider.getValue()); //set a target to ramp to
-    };
+//    widthValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
+//    (treeState, "width", widthSlider);
+//    widthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
+//    widthSlider.setRange(0.0f, 2.0f, 0.0f); //3rd arg is increment
+//    widthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
+//    addAndMakeVisible(&widthSlider);
+//    widthSlider.onValueChange = [this]()
+//    {
+//        audioProcessor.width = (widthSlider.getValue()); //set a target to ramp to
+//    };
 //
     // Mode Selection
     InSel.addItem("Stereo", 1);
@@ -47,10 +43,10 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
     outChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Output", OutSel);
     addAndMakeVisible(&OutSel);
     
-//    LowWidthSlider("dB", 0.0, 2.0, 0.01, 1.0),
+    // LowWidthSlider
     
    LowWidthValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
-    (treeState, "dB", LowWidthSlider);
+    (treeState, "LowWidth", LowWidthSlider);
     LowWidthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
     LowWidthSlider.setRange(0.0f, 2.0f, 0.01f); //3rd arg is increment
    LowWidthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
@@ -58,12 +54,12 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
     LowWidthSlider.setValue(1.0);
     LowWidthSlider.onValueChange = [this]()
     {
-        audioProcessor.LowWidth = LowWidthSlider.getValue(); //change midGain to lowWidthGain
-
+        audioProcessor.LowWidth = LowWidthSlider.getValue();
     };
-//HighWidthSlider("dB", 0.0, 2.0, 0.01, 1.0),
+    
+//HighWidthSlider
    HighWidthValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
-    (treeState, "dB", HighWidthSlider);
+    (treeState, "HighWidth", HighWidthSlider);
     HighWidthSlider.setSliderStyle(juce::Slider::LinearHorizontal);
     HighWidthSlider.setRange(0.0f, 2.0f, 0.01f); //3rd arg is increment
     HighWidthSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxRight, true, 75, 25);
@@ -119,14 +115,13 @@ MSUtilityAudioProcessorEditor::~MSUtilityAudioProcessorEditor()
 //==============================================================================
 void MSUtilityAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-  
+ 
     g.fillAll(juce::Colours::greenyellow);
-    g.setColour(juce::Colours::transparentBlack);
+    g.setColour(juce::Colours::black);
     
     //Title text
     g.setFont(30);
-    g.drawFittedText("Mid-Side Utiliy", 10, 20, 210, 10, juce::Justification::centred, 1, 0.0f);
+    g.drawFittedText("Mid-Side Utility", 10, 20, 210, 10, juce::Justification::centred, 1, 0.0f);
     
     // labels
     g.setFont(25);
@@ -137,14 +132,12 @@ void MSUtilityAudioProcessorEditor::paint (juce::Graphics& g)
 
 void MSUtilityAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
-    widthSlider.setBounds(100, 50, 220, 50);
-    //feedbackSlider.setBounds(50, 180, 320, 50);
-    InSel.setBounds(0.5, 0.5, 100, 25);
-    OutSel.setBounds(250.5, 0.5, 100, 25);
-    LowWidthSlider.setBounds(100, 100, 220, 50);
-    HighWidthSlider.setBounds(100, 150, 220, 50);// x y width height
-    CrossfadeSlider.setBounds(100, 200, 220, 50);
+    // lay out the positions of any subcomponents in your editor..
     
+//    widthSlider.setBounds(100, 50, 220, 50);
+    InSel.setBounds(200, 50, 100, 35);
+    OutSel.setBounds(200, 400, 100, 35);
+    LowWidthSlider.setBounds(150, 100, 250, 100);
+    HighWidthSlider.setBounds(150, 200, 250, 100);// x y width height
+    CrossfadeSlider.setBounds(150, 300, 250, 100);
 }

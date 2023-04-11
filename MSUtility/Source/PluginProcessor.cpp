@@ -22,36 +22,29 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
                        ),
                        
                         treeState(*this, nullptr, juce::Identifier("PARAMETERS"),
+                                  //1 (*this) provides the tree state with a reference to the processor class.
+                                  //2 ‘nullptr’ is for the UndoManager, indicating it will not be used in this implementation
+                                  //3 unique string identifier used to initialise the internal ValueTree
 {
     std::make_unique<juce::AudioParameterFloat>("width", "Image width", 0.0f, 2.0f, 1.0f),
-   
-    
     std::make_unique<juce::AudioParameterChoice>("inChoice", "Input", juce::StringArray("Stereo", "Mid-Side"), 0),
-    
     std::make_unique<juce::AudioParameterFloat>("LowWidth", "LowWidth", 0.f, 2.f, 0.f),
     std::make_unique<juce::AudioParameterFloat>("HighWidth", "HighWidth", 0.f, 2.f, 0.f),
     std::make_unique<juce::AudioParameterInt>("Hz", "Crossfade", 20, 20000, 1000),
-    
-    //add std::make_unique<juce::AudioParameterFloat> for Input/Output level
-    
-    //perhaps mid or side level individually?
-    //it would be good to pan mid or side individually to L/R channels
-    
     std::make_unique<juce::AudioParameterChoice>("outChoice", "Output", juce::StringArray("Stereo", "Mid-Side"), 0)
     
-    
-   
-    
+    //add std::make_unique<juce::AudioParameterFloat> for Input/Output level
+    //perhaps mid or side level individually?
+    //it would be good to pan mid or side individually to L/R channels
 })
 
-
 #endif
+
 {
-    const juce::StringArray params = {"width", "inChoice", "LowWidth", "HighWidthDb", "Hz" "outChoice"};
+    const juce::StringArray params = {"width", "inChoice", "LowWidth", "HighWidth", "Hz" "outChoice"};
     for (int i = 0; i <= 5; ++i)
     {
-        // adds a listener to each parameter in the array.
-        treeState.addParameterListener(params[i], this);
+        treeState.addParameterListener(params[i], this);  // adds a listener to each parameter in the array.
     }
         
     treeState.addParameterListener("width", this);
@@ -67,12 +60,12 @@ MSUtilityAudioProcessor::~MSUtilityAudioProcessor()
 {
     
 }
+
 juce::AudioProcessorValueTreeState::ParameterLayout MSUtilityAudioProcessor::createParameterLayout(){
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
     
     //update number of reservation for each new added parameter
-    params.reserve(5); ////???
-    
+    params.reserve(5); ///
     return { params.begin(), params.end()};
 }
 
