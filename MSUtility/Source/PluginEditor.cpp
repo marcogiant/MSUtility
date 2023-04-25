@@ -22,13 +22,13 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
   
     // Mode Selection
     InSel.addItem("Stereo", 1);
-    InSel.addItem("Mid-Side", 2);
+    InSel.addItem("MS", 2);
     InChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Input", InSel);
     addAndMakeVisible(&InSel);
     
     OutSel.addItem("Stereo", 1);
-    OutSel.addItem("Mid-Side", 2);
-    outChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Output", OutSel);
+    OutSel.addItem("MS", 2);
+    OutChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Output", OutSel);
     addAndMakeVisible(&OutSel);
     
     // LowWidthSlider

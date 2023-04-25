@@ -27,11 +27,11 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
                                   //3 unique string identifier used to initialise the internal ValueTree
 {
     std::make_unique<juce::AudioParameterFloat>("width", "Image width", 0.0f, 2.0f, 1.0f),
-    std::make_unique<juce::AudioParameterChoice>("InChoice", "Input", juce::StringArray("Stereo", "Mid-Side"), 1),
+    std::make_unique<juce::AudioParameterChoice>("InChoice", "Input", juce::StringArray("Stereo", "MS"), 0),
     std::make_unique<juce::AudioParameterFloat>("LowWidth", "LowWidth", 0.f, 2.f, 0.f),
     std::make_unique<juce::AudioParameterFloat>("HighWidth", "HighWidth", 0.f, 2.f, 0.f),
     std::make_unique<juce::AudioParameterInt>("Hz", "Crossfade", 20, 20000, 1000),
-    std::make_unique<juce::AudioParameterChoice>("outChoice", "Output", juce::StringArray("Stereo", "Mid-Side"), 0)
+    std::make_unique<juce::AudioParameterChoice>("OutChoice", "Output", juce::StringArray("Stereo", "MS"), 0)
     
     //add std::make_unique<juce::AudioParameterFloat> for Input/Output level
     //perhaps mid or side level individually?
@@ -41,7 +41,7 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
 #endif
 
 {
-    const juce::StringArray params = {"width", "InChoice", "LowWidth", "HighWidth", "Hz" "outChoice"};
+    const juce::StringArray params = {"width", "InChoice", "LowWidth", "HighWidth", "Hz" "OutChoice"};
     for (int i = 0; i <= 5; ++i)
     {
         treeState.addParameterListener(params[i], this);  // adds a listener to each parameter in the array.
@@ -190,6 +190,7 @@ void MSUtilityAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         widenerModule.setParameter(ImageWidener::parameterID::kHighWidth, HighWidth);
         widenerModule.setParameter(ImageWidener::parameterID::kCrossfade, crossfade);
         widenerModule.setParameter(ImageWidener::parameterID::kInChoice, InChoice);
+        widenerModule.setParameter(ImageWidener::parameterID::kOutChoice, OutChoice);
         widenerModule.processBlock(audioBlock);
         
     
@@ -231,6 +232,6 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 void MSUtilityAudioProcessor::parameterChanged(const juce::String& parameterID, float
                                                   newValue)
 {
-    
-    
+   
 }
+

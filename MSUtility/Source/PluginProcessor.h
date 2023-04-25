@@ -59,7 +59,7 @@ public:
 // override this function and provide implementation for it
     //provides the declaration of the function we need to include, describing it’s return type (void) and two parameters.
   int InChoice {0};
-
+    int OutChoice {0};
   float LowWidth {1.0};
   float HighWidth {1.0};
   float width {1.0f};
@@ -73,9 +73,6 @@ private:
     ImageWidener widenerModule; //create instance of class
     
     //==============================================================================
-//    juce::AudioParameterChoice *input; //encoding
-//    juce::AudioParameterChoice *output; //decoding
-//    juce::AudioParameterFloat *width; // slider for stereo width (range 0, -2)
-    // advenced parameters to be added
+ 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MSUtilityAudioProcessor)
 };

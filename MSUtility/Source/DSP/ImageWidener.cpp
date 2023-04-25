@@ -40,7 +40,9 @@ void ImageWidener::processBlock(juce::dsp::AudioBlock<float> &block)
             float LowMidRaw = left[sample];
             float LowSidesRaw = right[sample];
             
-            if (InChoice == 2)
+            std::printf("%d\n",InChoice);
+            
+            if (InChoice == 1)
             {
                 LowMidRaw = 0.5 * (left[sample] + right[sample]);
                 LowSidesRaw = 0.5 * (left[sample] - right[sample]);
@@ -117,9 +119,17 @@ void ImageWidener::setParameter(parameterID parameter, float parameterValue)
             break;
             
         }
+            
+        case parameterID::kOutChoice:
+        {
+            OutChoice = parameterValue;
+            break;
+            
+        }
     }
     
 }
+
 
 void ImageWidener::assertBool(float sourceValue)
 {
