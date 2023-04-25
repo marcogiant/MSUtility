@@ -58,7 +58,8 @@ public:
    void parameterChanged(const juce::String& parameterID, float newValue) override;
 // override this function and provide implementation for it
     //provides the declaration of the function we need to include, describing it’s return type (void) and two parameters.
-    
+  int InChoice {0};
+
   float LowWidth {1.0};
   float HighWidth {1.0};
   float width {1.0f};

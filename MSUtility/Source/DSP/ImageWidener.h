@@ -26,6 +26,7 @@ public:
         kLowWidth,
         kHighWidth,
         kCrossfade,
+        kInChoice,
         kBypass
 
     };
@@ -38,8 +39,10 @@ private:
     void assertBool(float sourceValue);
     
     juce::SmoothedValue<float> LowWidth {1.0f};
-     juce::SmoothedValue<float> HighWidth {1.0f};
+    juce::SmoothedValue<float> HighWidth {1.0f};
     juce::SmoothedValue<float> crossfadeFreq {10000.f};
+    int InChoice {1};
+    int outChoice {0};
     
     bool bypassModule {false};
     float currentSampleRate;

@@ -29,7 +29,7 @@ void ImageWidener::processBlock(juce::dsp::AudioBlock<float> &block)
     if (bypassModule) return; //if bypass module flags on 'true', return out of processBlock
     for (int channel = 0; channel < block.getNumChannels(); ++channel)
     {
-     //   auto* channelData = buffer.getWritePointer (channel);
+
         
         // get reference of right and left channel into variables
         auto* left = block.getChannelPointer (0);
@@ -37,9 +37,19 @@ void ImageWidener::processBlock(juce::dsp::AudioBlock<float> &block)
         
         for (int sample = 0; sample < block.getNumSamples(); ++sample)
         {
+            float LowMidRaw = left[sample];
+            float LowSidesRaw = right[sample];
             
-            const auto LowMidRaw = 0.5 * (left[sample] + right[sample]);
-            const auto LowSidesRaw = 0.5 * (left[sample] - right[sample]);
+            if (InChoice == 2)
+            {
+                LowMidRaw = 0.5 * (left[sample] + right[sample]);
+                LowSidesRaw = 0.5 * (left[sample] - right[sample]);
+            }
+//            else
+//            {
+//                LowMidRaw = (left[sample]);
+//                LowSidesRaw = (right[sample]);
+//            }
             
             crossfadeFilterModule.setCutoffFrequency(crossfadeFreq.getNextValue());
             crossfadeFilterModule2.setCutoffFrequency(crossfadeFreq.getNextValue());
@@ -62,17 +72,9 @@ void ImageWidener::processBlock(juce::dsp::AudioBlock<float> &block)
             const auto OutHighLeft =  newHighMid + newHighSides;
             const auto OutHighRight = newHighMid - newHighSides;
             
-            const auto BiLowWidth = juce::jmap(LowWidth.getNextValue(), 0.f, 2.f, -1.f , 1.f);
-            const auto BiHighWidth = juce::jmap(HighWidth.getNextValue(), 0.f, 2.f, -1.f, 1.f);
-            
-        const auto LowVolumeScaler = juce::jmap(std::abs(BiLowWidth), -1.0f, 1.0f, 0.0f, -10.0f);
-        const auto HighVolumeScaler = juce::jmap(std::abs(BiHighWidth), -1.0f, 1.0f, 0.0f, -10.0f);
-            
-            const auto scaledLow = juce::Decibels::decibelsToGain(LowVolumeScaler);
-            const auto scaledHigh = juce::Decibels::decibelsToGain(HighVolumeScaler);
-            
-            left[sample] =  OutLowLeft + OutHighLeft ; //
-            right[sample] = OutLowRight + OutHighRight; //;//+
+
+            left[sample] =  OutLowLeft + OutHighLeft ;
+            right[sample] = OutLowRight + OutHighRight;
             }
             
             
@@ -107,6 +109,13 @@ void ImageWidener::setParameter(parameterID parameter, float parameterValue)
             bypassModule = parameterValue;
             break;
 
+        }
+        
+        case parameterID::kInChoice:
+        {
+            InChoice = parameterValue;
+            break;
+            
         }
     }
     

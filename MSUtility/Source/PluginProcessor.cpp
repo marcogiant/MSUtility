@@ -27,7 +27,7 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
                                   //3 unique string identifier used to initialise the internal ValueTree
 {
     std::make_unique<juce::AudioParameterFloat>("width", "Image width", 0.0f, 2.0f, 1.0f),
-    std::make_unique<juce::AudioParameterChoice>("inChoice", "Input", juce::StringArray("Stereo", "Mid-Side"), 0),
+    std::make_unique<juce::AudioParameterChoice>("InChoice", "Input", juce::StringArray("Stereo", "Mid-Side"), 1),
     std::make_unique<juce::AudioParameterFloat>("LowWidth", "LowWidth", 0.f, 2.f, 0.f),
     std::make_unique<juce::AudioParameterFloat>("HighWidth", "HighWidth", 0.f, 2.f, 0.f),
     std::make_unique<juce::AudioParameterInt>("Hz", "Crossfade", 20, 20000, 1000),
@@ -41,7 +41,7 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
 #endif
 
 {
-    const juce::StringArray params = {"width", "inChoice", "LowWidth", "HighWidth", "Hz" "outChoice"};
+    const juce::StringArray params = {"width", "InChoice", "LowWidth", "HighWidth", "Hz" "outChoice"};
     for (int i = 0; i <= 5; ++i)
     {
         treeState.addParameterListener(params[i], this);  // adds a listener to each parameter in the array.
@@ -109,8 +109,7 @@ double MSUtilityAudioProcessor::getTailLengthSeconds() const
 
 int MSUtilityAudioProcessor::getNumPrograms()
 {
-    return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
-                // so this should be at least 1, even if you're not really implementing programs.
+    return 1;
 }
 
 int MSUtilityAudioProcessor::getCurrentProgram()
@@ -141,15 +140,6 @@ void MSUtilityAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = getTotalNumOutputChannels();
     
-//    LowWidth.prepare(spec); //get rid of these
-//    HighWidthGainModule.prepare(spec);// """"
-    //Crossfade?Module.prepare(spec);
-    
-   // width.reset(sampleRate,  0.02); //""""set ramp time
-    
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
-    
     widenerModule.prepare(spec);
 }
 
@@ -166,15 +156,12 @@ bool MSUtilityAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts
     juce::ignoreUnused (layouts);
     return true;
   #else
-    // This is the place where you check if the layout is supported.
-    // In this template code we only support mono or stereo.
-    // Some plugin hosts, such as certain GarageBand versions, will only
-    // load plugins that support stereo bus layouts.
+    
     if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono()
      && layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
         return false;
 
-    // This checks if the input layout matches the output layout
+    
    #if ! JucePlugin_IsSynth
     if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
         return false;
@@ -191,25 +178,10 @@ void MSUtilityAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
+
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // get width position
-//    float widthVal = (juce::AudioProcessorValueTreeState::getParameterAsValue("width", parameterID    )    const
-// + 1.0f) / 2.0f;
-//
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
     
     if(totalNumInputChannels == 2){
         
@@ -217,6 +189,7 @@ void MSUtilityAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         widenerModule.setParameter(ImageWidener::parameterID::kLowWidth, LowWidth);
         widenerModule.setParameter(ImageWidener::parameterID::kHighWidth, HighWidth);
         widenerModule.setParameter(ImageWidener::parameterID::kCrossfade, crossfade);
+        widenerModule.setParameter(ImageWidener::parameterID::kInChoice, InChoice);
         widenerModule.processBlock(audioBlock);
         
     
@@ -258,34 +231,6 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 void MSUtilityAudioProcessor::parameterChanged(const juce::String& parameterID, float
                                                   newValue)
 {
-    
-  // if (parameterID == "width")
-    //  (newValue);
-//    else if (parameterID == "inChoice")
-//        ladderFilter.setResonance(newValue);
-//    else if (parameterID == "midDb")
-//        ladderFilter.setDrive(newValue);
-//    else if (parameterID == "sideDb")
-//
-//    else if (parameterID == "outChoice")
-//    {
-//        switch ((int)newValue)
-//        {
-//            case 0: ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::LPF12);
-//                break;
-//            case 1: ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::LPF24);
-//                break;
-//            case 2: ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::HPF12);
-//                break;
-//            case 3: ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::HPF24);
-//                break;
-//            case 4: ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::BPF12);
-//
-//                break;
-//            case 5: ladderFilter.setMode(juce::dsp::LadderFilter<float>::Mode::BPF24);
-//                break;
-//        }
-  //  }
     
     
 }
