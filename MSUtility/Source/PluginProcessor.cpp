@@ -26,12 +26,12 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
                                   //2 ‘nullptr’ is for the UndoManager, indicating it will not be used in this implementation
                                   //3 unique string identifier used to initialise the internal ValueTree
 {
-    std::make_unique<juce::AudioParameterFloat>("width", "Image width", 0.0f, 2.0f, 1.0f),
-    std::make_unique<juce::AudioParameterChoice>("InChoice", "Input", juce::StringArray("Stereo", "MS"), 0.0),
+   
+    std::make_unique<juce::AudioParameterChoice>("InChoice", "Input", juce::StringArray("Stereo", "MS"), 0),
     std::make_unique<juce::AudioParameterFloat>("LowWidth", "LowWidth", 0.f, 2.f, 0.f),
     std::make_unique<juce::AudioParameterFloat>("HighWidth", "HighWidth", 0.f, 2.f, 0.f),
     std::make_unique<juce::AudioParameterInt>("Hz", "Crossfade", 20, 20000, 1000),
-    std::make_unique<juce::AudioParameterChoice>("OutChoice", "Output", juce::StringArray("Stereo", "MS"), 0.0)
+    std::make_unique<juce::AudioParameterChoice>("OutChoice", "Output", juce::StringArray("Stereo", "MS"), 0)
     
     //add std::make_unique<juce::AudioParameterFloat> for Input/Output level
     //perhaps mid or side level individually?
@@ -41,13 +41,13 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
 #endif
 
 {
-    const juce::StringArray params = {"width", "InChoice", "LowWidth", "HighWidth", "Hz" "OutChoice"};
-    for (int i = 0; i <= 5; ++i)
+    const juce::StringArray params = {"InChoice", "LowWidth", "HighWidth", "Hz" "OutChoice"};
+    for (int i = 0; i <= 4; ++i)
     {
         treeState.addParameterListener(params[i], this);  // adds a listener to each parameter in the array.
     }
         
-    treeState.addParameterListener("width", this);
+  
     treeState.addParameterListener("InChoice", this);
     treeState.addParameterListener("OutChoice", this);
     treeState.addParameterListener("LowWidth", this);
@@ -65,7 +65,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout MSUtilityAudioProcessor::cre
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
     
     //update number of reservation for each new added parameter
-    params.reserve(5); ///
+    params.reserve(4); ///
     return { params.begin(), params.end()};
 }
 

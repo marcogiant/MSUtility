@@ -37,7 +37,7 @@ void ImageWidener::processBlock(juce::dsp::AudioBlock<float> &block)
         
         for (int sample = 0; sample < block.getNumSamples(); ++sample)
             
-    if (InChoice == 0) // stereo input
+    if (InChoice == 1) // stereo input
     {
                 
             
@@ -80,21 +80,22 @@ void ImageWidener::processBlock(juce::dsp::AudioBlock<float> &block)
             
          
             //Decoding
-            if (OutChoice == 0) // 0 == stereo
+            if (OutChoice == 1) // 1 == stereo
             {
 // stereo output
             left[sample] =  OutLowLeft + OutHighLeft ;
             right[sample] = OutLowRight + OutHighRight;
             }
             else
-            { // 1 == Mid-Side
+            { // 2 == Mid-Side
 // Mid-Side output
             left[sample] = newLowMid + newHighMid; // Mid output
             right[sample] = newLowSides + newHighSides; //Sides output
             }
         }
     }
-        else // MS input
+        
+        else // MS input --- need a more efficient implementation
         {
         float  Mid = left[sample];
         float  Sides = right[sample];
@@ -139,21 +140,21 @@ void ImageWidener::processBlock(juce::dsp::AudioBlock<float> &block)
             
             
             //Decoding
-            if (OutChoice == 0) // 0 == stereo
+            if (OutChoice == 1) // 1 == stereo
             {
                 // stereo output
                 left[sample] =  OutLowLeft + OutHighLeft ;
                 right[sample] = OutLowRight + OutHighRight;
             }
             else
-            { // 1 == Mid-Side
+            { // 2 == Mid-Side
+                
                 // Mid-Side output
                 left[sample] = newLowMid + newHighMid; // Mid output
                 right[sample] = newLowSides + newHighSides; //Sides output
             }
 
         }
-//
     }
 }
 
@@ -188,7 +189,7 @@ void ImageWidener::setParameter(parameterID parameter, float parameterValue)
 
         }
         
-        case parameterID::kInChoice:
+        case parameterID::kInChoice: 
         {
             InChoice = parameterValue;
             break;
