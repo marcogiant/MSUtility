@@ -37,10 +37,8 @@ void ImageWidener::processBlock(juce::dsp::AudioBlock<float> &block)
         
         for (int sample = 0; sample < block.getNumSamples(); ++sample)
             
-    if (InChoice == 1) // stereo input
+    if (InChoice == 1) // stereo input //// change to 2, or any other value for accepting M/S input
     {
-                
-            
         {
             // store channel data sample by sample in new variable
             float LowMidRaw = left[sample];
