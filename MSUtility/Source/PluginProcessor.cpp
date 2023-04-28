@@ -27,11 +27,11 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
                                   //3 unique string identifier used to initialise the internal ValueTree
 {
     std::make_unique<juce::AudioParameterFloat>("width", "Image width", 0.0f, 2.0f, 1.0f),
-    std::make_unique<juce::AudioParameterChoice>("InChoice", "Input", juce::StringArray("Stereo", "MS"), 0),
+    std::make_unique<juce::AudioParameterChoice>("InChoice", "Input", juce::StringArray("Stereo", "MS"), 0.0),
     std::make_unique<juce::AudioParameterFloat>("LowWidth", "LowWidth", 0.f, 2.f, 0.f),
     std::make_unique<juce::AudioParameterFloat>("HighWidth", "HighWidth", 0.f, 2.f, 0.f),
     std::make_unique<juce::AudioParameterInt>("Hz", "Crossfade", 20, 20000, 1000),
-    std::make_unique<juce::AudioParameterChoice>("OutChoice", "Output", juce::StringArray("Stereo", "MS"), 0)
+    std::make_unique<juce::AudioParameterChoice>("OutChoice", "Output", juce::StringArray("Stereo", "MS"), 0.0)
     
     //add std::make_unique<juce::AudioParameterFloat> for Input/Output level
     //perhaps mid or side level individually?

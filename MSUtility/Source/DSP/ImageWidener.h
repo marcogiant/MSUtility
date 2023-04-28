@@ -42,8 +42,8 @@ private:
     juce::SmoothedValue<float> LowWidth {1.0f};
     juce::SmoothedValue<float> HighWidth {1.0f};
     juce::SmoothedValue<float> crossfadeFreq {10000.f};
-    int InChoice {0};
-    int OutChoice {0};
+    float InChoice {0.0};
+    float OutChoice {0.0};
     
     bool bypassModule {false};
     float currentSampleRate;

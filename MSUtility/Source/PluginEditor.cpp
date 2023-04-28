@@ -21,13 +21,13 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
     setSize (500, 500);
   
     // Mode Selection
-    InSel.addItem("Stereo", 1);
-    InSel.addItem("MS", 2);
+    InSel.addItem("Stereo", 1.0f);
+    InSel.addItem("MS", 2.0f);
     InChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Input", InSel);
     addAndMakeVisible(&InSel);
     
-    OutSel.addItem("Stereo", 1);
-    OutSel.addItem("MS", 2);
+    OutSel.addItem("Stereo", 1.0f);
+    OutSel.addItem("MS", 2.0f);
     OutChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Output", OutSel);
     addAndMakeVisible(&OutSel);
     
@@ -90,18 +90,20 @@ void MSUtilityAudioProcessorEditor::paint (juce::Graphics& g)
     
     // labels
     g.setFont(25);
-    g.drawFittedText("Width", 125, 165, 220, 50, juce::Justification::centred, 1, 0.0f);
-     g.drawFittedText("Crossover", 125, 265, 220, 50, juce::Justification::centred, 1, 0.0f);
-    g.drawFittedText("Input", 50, 45, 220, 50, juce::Justification::centred, 1, 0.0f);
-    g.drawFittedText("Output", 45, 400, 220, 50, juce::Justification::centred, 1, 0.0f);
+    g.drawFittedText("Width", 125, 175, 220, 50, juce::Justification::centred, 1, 0.0f);
+    g.drawFittedText("Low Band", -10, 125, 220, 50, juce::Justification::centred, 1, 0.0f);
+    g.drawFittedText("High Band", -10, 225, 220, 50, juce::Justification::centred, 1, 0.0f);
+     g.drawFittedText("Crossover", 125, 275, 220, 50, juce::Justification::centred, 1, 0.0f);
+    g.drawFittedText("Input", -50, 45, 220, 50, juce::Justification::centred, 1, 0.0f);
+    g.drawFittedText("Output", 200, 400, 220, 50, juce::Justification::centred, 1, 0.0f);
 }
 
 void MSUtilityAudioProcessorEditor::resized()
 {
 
 //    widthSlider.setBounds(100, 50, 220, 50);
-    InSel.setBounds(200, 50, 100, 35);
-    OutSel.setBounds(200, 400, 100, 35);
+    InSel.setBounds(100, 50, 100, 35);
+    OutSel.setBounds(360, 410, 100, 35);
     LowWidthSlider.setBounds(150, 100, 250, 100);
     HighWidthSlider.setBounds(150, 200, 250, 100);// x y width height
     CrossfadeSlider.setBounds(150, 300, 250, 100);
