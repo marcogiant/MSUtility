@@ -57,7 +57,7 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
         audioProcessor.HighWidth = HighWidthSlider.getValue();//same as above
     };
     
-    //CrossfadeSlider(),
+    //CrossfadeSlider
     CrossfadeValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
     (treeState, "Hz", CrossfadeSlider);
     CrossfadeSlider.setSliderStyle(juce::Slider::LinearHorizontal);
@@ -101,7 +101,7 @@ void MSUtilityAudioProcessorEditor::paint (juce::Graphics& g)
 void MSUtilityAudioProcessorEditor::resized()
 {
 
-//    widthSlider.setBounds(100, 50, 220, 50);
+
     InSel.setBounds(100, 50, 100, 35);
     OutSel.setBounds(360, 410, 100, 35);
     LowWidthSlider.setBounds(150, 100, 250, 100);

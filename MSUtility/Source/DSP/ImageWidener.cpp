@@ -191,7 +191,7 @@ void ImageWidener::setParameter(parameterID parameter, float parameterValue)
         
         case parameterID::kInChoice: 
         {
-            InChoice = parameterValue;
+            InChoice = parameterValue; //not linked
             break;
             
         }

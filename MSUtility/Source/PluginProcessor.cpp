@@ -33,9 +33,7 @@ MSUtilityAudioProcessor::MSUtilityAudioProcessor()
     std::make_unique<juce::AudioParameterInt>("Hz", "Crossfade", 20, 20000, 1000),
     std::make_unique<juce::AudioParameterChoice>("OutChoice", "Output", juce::StringArray("Stereo", "MS"), 0)
     
-    //add std::make_unique<juce::AudioParameterFloat> for Input/Output level
-    //perhaps mid or side level individually?
-    //it would be good to pan mid or side individually to L/R channels
+    
 })
 
 #endif
@@ -211,9 +209,8 @@ juce::AudioProcessorEditor* MSUtilityAudioProcessor::createEditor()
 //==============================================================================
 void MSUtilityAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    // store your parameters in the memory block.
+    
     auto state = treeState.copyState();
     std::unique_ptr<juce::XmlElement> xml(state.createXml());
     copyXmlToBinary(*xml, destData);
@@ -221,8 +218,8 @@ void MSUtilityAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 
 void MSUtilityAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    // restore your parameters from this memory block,
+    
     std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
     
     if (xmlState.get() != nullptr)

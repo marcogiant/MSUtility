@@ -15,7 +15,8 @@
 */
 class MSUtilityAudioProcessor  : public juce::AudioProcessor,
                                  public juce::AudioProcessorValueTreeState::Listener
-    //processor class inherits from the AudioProcessingValueTreeState::Listener, a special utility class nested in the AudioProcessingValueTreeState. This way, the processor will be able to listen out for changes made to the value tree
+
+ //processor class inherits from the AudioProcessingValueTreeState::Listener, a special utility class nested in the AudioProcessingValueTreeState. This way, the processor will be able to listen out for changes made to the value tree
 {
 public:
     //==============================================================================
@@ -57,9 +58,10 @@ public:
 
    void parameterChanged(const juce::String& parameterID, float newValue) override;
 // override this function and provide implementation for it
-    //provides the declaration of the function we need to include, describing it’s return type (void) and two parameters.
+//provides the declaration of the function we need to include, describing it’s return type (void) and two parameters.
+    
   float InChoice {1.0};
-    float OutChoice {1.0};
+  float OutChoice {1.0};
   float LowWidth {1.0};
   float HighWidth {1.0};
   float width {1.0f};

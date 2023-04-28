@@ -45,8 +45,7 @@ private:
     juce::Label HighWidthLabel;
     juce::Label CrossfadeLabel;
     
-    // 2 x AudioProcessorValueTreeState::SliderAttachment (to maintain a connection between the sliders and associated parameters in the ValueTreeState)
-    //std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> widthValue; //
+
     std::unique_ptr <juce::AudioProcessorValueTreeState::ComboBoxAttachment> InChoice;//
     std::unique_ptr <juce::AudioProcessorValueTreeState::ComboBoxAttachment> OutChoice;
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> LowWidthValue;
