@@ -22,12 +22,12 @@ MSUtilityAudioProcessorEditor::MSUtilityAudioProcessorEditor
   
     // Mode Selection
     InSel.addItem("Stereo", 1);
-    InSel.addItem("MS", 2);
+    InSel.addItem("M/S", 2);
     InChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Input", InSel);
     addAndMakeVisible(&InSel);
     
     OutSel.addItem("Stereo", 1);
-    OutSel.addItem("MS", 2);
+    OutSel.addItem("M/S", 2);
     OutChoice = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(treeState, "Output", OutSel);
     addAndMakeVisible(&OutSel);
     
@@ -86,7 +86,7 @@ void MSUtilityAudioProcessorEditor::paint (juce::Graphics& g)
     
     //Title text
     g.setFont(30);
-    g.drawFittedText("Mid-Side Utility", 160, 20, 210, 10, juce::Justification::centred, 1, 0.0f);
+    g.drawFittedText("Multiband Mid-Side Utility", 50, 20, 400, 10, juce::Justification::centred, 1, 0.0f);
     
     // labels
     g.setFont(25);
